@@ -17,6 +17,12 @@ objects:
   - other_parties: ALPeopleList.using(there_are_any=True)
   - court_list: ALCourtLoader.using(file_name='docassemble.ILAO:data/sources/il_courts.xlsx')
 ---
+code: |
+  ilao_easy_form_title = "E-filing exemption"
+  ilao_easy_form_url = "https://www.illinoislegalaid.org/legal-information/e-filing-exemption-circuit-court"
+  github_user = 'IllinoisLegalAidOnline'
+  github_repo_name = 'docassemble-EFilingExemption'
+---
 sections:
   - review_answers: Review your answers
 ---
@@ -31,8 +37,6 @@ sections:
 # interview order block
 mandatory: True
 code: |
-  ilao_easy_form_title = "E-filing exemption"
-  ilao_easy_form_url = "https://www.illinoislegalaid.org/legal-information/e-filing-exemption-circuit-court"
   nav.set_section('section_intro')
   sees_nav_bar
   set_progress(5)
@@ -168,7 +172,7 @@ question: |
   % if i == 0:
   What is your name?
   % else:
-  What is the name of the ${ ordinal(i) } person who is part of the case with you?
+  What is the name of the ${ ordinal(i) } ${party_label} ?
   % endif
 subquestion: |
   % if i != 0:
@@ -214,7 +218,7 @@ fields:
 ---
 id: include email
 question: |
-  Do you want to include your email address on your form?
+  Do you want to include your email address on the form?
 fields:
   - no label: include_email_address
     datatype: yesnoradio
@@ -252,13 +256,13 @@ question: |
 subquestion: |
   If you have a disability that prevents you from e-filing, you have an automatic exemption. You do not need to use this program to make an exemption form.
 
-  The **{court clerk}** should accommodate your request to file by paper. They should not ask you to explain or prove your disability.
+  The **{circuit clerk}** should accommodate your request to file by paper. They should not ask you to explain or prove your disability.
 buttons:
   - Exit: exit
   - Restart: restart
 terms:
-  court clerk: |
-    The office that takes care of files and documents for court cases.
+  circuit clerk: |
+    The office that takes care of files and documents for circuit court cases.
 ---
 id: other exemptions
 question: |
@@ -276,13 +280,13 @@ event: exemptions_exit
 question: |
   Sorry
 subquestion: |
-  You are not required to e-file in your situation. The **{court clerk}** should accommodate your request to file by paper.
+  You are not required to e-file in your situation. The **{circuit clerk}** should accommodate your request to file by paper.
 buttons:
   - Exit: exit
   - Restart: restart
 terms:
-  court clerk: |
-    The office that takes care of files and documents for court cases.
+  circuit clerk: |
+    The office that takes care of files and documents for circuit court cases.
 ---
 id: sensitive case
 question: |
@@ -327,7 +331,7 @@ fields:
 ---
 id: party label
 question: |
-  What is your party label in the court case?
+  What is your party label in the case?
 subquestion: |
   ${ collapse_template(which_party) }  
 field: party_label
@@ -437,7 +441,7 @@ id: case number
 question: |
   What is the case number?
 subquestion: |
-  The **{court clerk}** gives each case a number when it is filed.
+  The **{circuit clerk}** gives each case a number when it is filed.
 
   The case number is in the caption near the top of the first page of the court forms.
 
@@ -446,8 +450,8 @@ fields:
   - Case number: case_number
     required: False
 terms:
-  court clerk: |
-    The office that takes care of files and documents for court cases.
+  circuit clerk: |
+    The office that takes care of files and documents for circuit court cases.
 ---
 id: get docs screen
 event: get_docs_screen
