@@ -461,8 +461,6 @@ subquestion: |
   Your form is ready. View and download your form below. Click **Make changes** to fix any mistakes.
   
   Read the instructions to learn what to do next.
-
-  Thank you for using ILAO Easy Forms!
   
   ${ action_button_html(url_action('review_answers'), label=':edit: Make changes', color='success', size="md") }
 
