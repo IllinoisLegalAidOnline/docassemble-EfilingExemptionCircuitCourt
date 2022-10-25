@@ -2,7 +2,7 @@ metadata:
   title: E-filing exemption
   short title: E-filing exemption
   comment: This program helps you certify that you have a good reason to receive an e-filing exemption so you can file paper forms in the circuit court.
-  users:
+  authors:
     - Vivian McNaughton
     - Matt Newsted
 ---
@@ -24,15 +24,11 @@ code: |
   github_repo_name = 'docassemble-EFilingExemption'
 ---
 sections:
-  - review_answers: Review your answers
----
-sections:
   - section_intro: Start
   - section_reasons: Reasons for exemption
   - section_circuit: Court case info
   - section_user: About you
   - section_download: Download
-#  - review_answers: Review your answers
 ---
 # interview order block
 mandatory: True
