@@ -252,13 +252,10 @@ question: |
 subquestion: |
   If you have a disability that prevents you from e-filing, you have an automatic exemption. You do not need to use this program to make an exemption form.
 
-  The **{circuit clerk}** should accommodate your request to file by paper. They should not ask you to explain or prove your disability.
+  The **{circuit court clerk}** should accommodate your request to file by paper. They should not ask you to explain or prove your disability.
 buttons:
   - Exit: exit
   - Restart: restart
-terms:
-  circuit clerk: |
-    The office that takes care of files and documents for circuit court cases.
 ---
 id: other exemptions
 question: |
@@ -276,13 +273,10 @@ event: exemptions_exit
 question: |
   Sorry
 subquestion: |
-  You are not required to e-file in your situation. The **{circuit clerk}** should accommodate your request to file by paper.
+  You are not required to e-file in your situation. The **{circuit court clerk}** should accommodate your request to file by paper.
 buttons:
   - Exit: exit
   - Restart: restart
-terms:
-  circuit clerk: |
-    The office that takes care of files and documents for circuit court cases.
 ---
 id: sensitive case
 question: |
@@ -437,7 +431,7 @@ id: case number
 question: |
   What is the case number?
 subquestion: |
-  The **{circuit clerk}** gives each case a number when it is filed.
+  The **{circuit court clerk}** gives each case a number when it is filed.
 
   The case number is in the caption near the top of the first page of the court forms.
 
@@ -445,9 +439,6 @@ subquestion: |
 fields:
   - Case number: case_number
     required: False
-terms:
-  circuit clerk: |
-    The office that takes care of files and documents for circuit court cases.
 ---
 id: get docs screen
 event: get_docs_screen
