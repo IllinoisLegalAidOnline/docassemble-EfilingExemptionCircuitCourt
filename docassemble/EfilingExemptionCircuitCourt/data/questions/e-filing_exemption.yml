@@ -214,14 +214,20 @@ fields:
 ---
 id: include email
 question: |
-  Do you want to include your email address on the form?
+  Do you have an email address?
+subquestion: |
+  If you have an email address, you must list it so the court and other parties can contact you about this case.
 fields:
   - no label: include_email_address
     datatype: yesnoradio
 ---
 id: your email
 question: |
-  What is your email address?
+  What email address do you want to list on your form?
+subquestion: |
+  If you do not want to enter your personal email address, you can create a new email account to get email about your case.
+  
+  Be sure to check this email daily, otherwise you may miss important information about your case.																									
 fields: 
   - Email: users[0].email
     datatype: email
@@ -264,9 +270,9 @@ fields:
   - no label: other_exemptions
     datatype: checkboxes
     choices:
-      - "You are filing a will."
-      - "You are filing into a juvenile case."
-      - "You are in jail or prison."
+      - "I am filing a will."
+      - "I am filing into a juvenile case."
+      - "I am in jail or prison."
 ---
 id: exemptions exit
 event: exemptions_exit
@@ -315,9 +321,9 @@ fields:
   - no label: other_reasons
     datatype: checkboxes
     choices:
-      - "You do not have a computer or Internet access in you home. Your only access is through a public terminal at a courthouse, library, or other location. This poses a financial or other hardship.": no_computer
-      - "You have trouble reading, writing, or speaking in English.": no_english
-      - "You tried to e-file your papers, but you were unable to complete the process because the equipment or help you need is not available.": unable_to
+      - "I do not have a computer or Internet access in my home. My only access is through a public terminal at a courthouse, library, or other location. This poses a financial or other hardship.": no_computer
+      - "I have trouble reading, writing, or speaking in English.": no_english
+      - "I tried to e-file your papers, but I was unable to complete the process because the equipment or help I need is not available.": unable_to
 ---
 id: party label
 question: |
