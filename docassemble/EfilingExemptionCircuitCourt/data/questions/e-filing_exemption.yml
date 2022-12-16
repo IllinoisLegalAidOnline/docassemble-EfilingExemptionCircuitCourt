@@ -1,6 +1,6 @@
 metadata:
-  title: E-filing exemption
-  short title: E-filing exemption
+  title: E-filing exemption - Circuit Court
+  short title: E-filing exemption - Circuit Court
   comment: This program helps you certify that you have a good reason to receive an e-filing exemption so you can file paper forms in the circuit court.
   authors:
     - Vivian McNaughton
@@ -18,7 +18,7 @@ objects:
   - court_list: ALCourtLoader.using(file_name='docassemble.ILAO:data/sources/il_courts.xlsx')
 ---
 code: |
-  ilao_easy_form_title = "E-filing exemption"
+  ilao_easy_form_title = "E-filing exemption - Circuit Court"
   ilao_easy_form_url = "https://www.illinoislegalaid.org/legal-information/e-filing-exemption-circuit-court"
   github_user = 'IllinoisLegalAidOnline'
   github_repo_name = 'docassemble-EFilingExemption'
@@ -81,7 +81,7 @@ id: welcome
 question: |
   E-filing exemption
 subquestion: |
-  Welcome to Illinois Legal Aid Online's **E-filing exemption** Easy Form.
+  Welcome to Illinois Legal Aid Online's **E-filing exemption - Circuit Court** Easy Form.
 
   This program helps you certify that you have a good reason to receive an e-filing exemption so you can file paper court forms.
   
