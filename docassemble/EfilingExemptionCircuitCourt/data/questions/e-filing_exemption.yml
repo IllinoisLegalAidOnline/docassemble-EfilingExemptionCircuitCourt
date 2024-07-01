@@ -16,6 +16,7 @@ objects:
   - users: ALPeopleList.using(there_are_any=True)
   - other_parties: ALPeopleList.using(there_are_any=True)
   - court_list: ALCourtLoader.using(file_name='docassemble.ILAO:data/sources/il_courts.xlsx')
+  - all_parties: ALPeopleList.using(there_are_any=True)
 ---
 code: |
   ilao_easy_form_title = "E-filing exemption - Circuit Court"
@@ -77,6 +78,7 @@ code: |
   set_progress(100)
   nav.set_section('section_download')
   forms_assembling
+  create_complete_list
   snapshot_forms
   get_docs_screen
 ---
@@ -536,12 +538,22 @@ content: |
   [**Illinois Legal Aid Online**](https://www.illinoislegalaid.org)
 ---
 objects:
-  - al_user_bundle: ALDocumentBundle.using(elements=[instructions, efiling_exemption], filename="efiling_exemption_circuit_court.pdf", title="Download all forms", enabled=True)
+  - al_user_bundle: ALDocumentBundle.using(elements=[item.efiling_exemption for item in all_parties], filename="efiling_exemption_circuit_court.pdf", title="Download all forms", enabled=True)
   - al_court_bundle: ALDocumentBundle.using(elements=[instructions, efiling_exemption], filename="efiling_exemption_circuit_court.pdf", title="Download all forms", enabled=True)
 ---
+reconsider: True
+code: |
+  all_parties = []
+  for user in users:
+    all_parties.append(user)
+  for party in other_parties:
+    all_parties.append(party)
+  create_complete_list = True
+---
+generic object: ALIndividual
 attachment:
   - name: E-filing exemption
-    variable name: efiling_exemption[i]
+    variable name: x.efiling_exemption[i]
     filename: e_filing_exemption
     pdf template file: Efiling_exemption.pdf
     skip undefined: True
@@ -567,8 +579,12 @@ attachment:
     filename: efiling_exemption_instructions
     docx template file: Instructions_efiling_exemption_circuit_court.docx
 ---
+#objects:
+  #- exemption_bundle: ALDocumentBundle.using(elements=[item.efiling_exemption for item in all_parties], title= "Notice of court date", filename="notice_of_court_date.pdf", has_addendum=False, enabled=True)
+---
 objects:
-  - efiling_exemption: ALDocument.using(title="E-filing exemption", filename="exemption", enabled=True, has_addendum=False)
+  - users[i].efiling_exemption: ALDocument.using(title=f"E-filing exemption { i + 1}", filename="exemption", enabled=True, has_addendum=False)
+  - other_parties[i].efiling_exemption: ALDocument.using(title=f"E-filing exemption { users.number_gathered() + i + 1}", filename="exemption", enabled=True, has_addendum=False)
   - instructions: ALDocument.using(title="Instructions", filename="instructions", enabled=True, has_addendum=False)
 ---
 id: review screen
