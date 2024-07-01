@@ -78,7 +78,9 @@ code: |
   set_progress(100)
   nav.set_section('section_download')
   forms_assembling
+  
   create_complete_list
+  titling_code
   snapshot_forms
   get_docs_screen
 ---
@@ -538,16 +540,12 @@ content: |
   [**Illinois Legal Aid Online**](https://www.illinoislegalaid.org)
 ---
 objects:
-  - al_user_bundle: ALDocumentBundle.using(elements=[item.efiling_exemption for item in all_parties], filename="efiling_exemption_circuit_court.pdf", title="Download all forms", enabled=True)
+  - al_user_bundle: ALDocumentBundle.using(elements=[], filename="efiling_exemption_circuit_court.pdf", title="Download all forms", enabled=True)
   - al_court_bundle: ALDocumentBundle.using(elements=[instructions, efiling_exemption], filename="efiling_exemption_circuit_court.pdf", title="Download all forms", enabled=True)
 ---
 reconsider: True
 code: |
-  all_parties = []
-  for user in users:
-    all_parties.append(user)
-  for party in other_parties:
-    all_parties.append(party)
+  all_parties = DAList("all_parties", elements = users + other_parties)
   create_complete_list = True
 ---
 generic object: ALIndividual
@@ -583,9 +581,21 @@ attachment:
   #- exemption_bundle: ALDocumentBundle.using(elements=[item.efiling_exemption for item in all_parties], title= "Notice of court date", filename="notice_of_court_date.pdf", has_addendum=False, enabled=True)
 ---
 objects:
-  - users[i].efiling_exemption: ALDocument.using(title=f"E-filing exemption { i + 1}", filename="exemption", enabled=True, has_addendum=False)
-  - other_parties[i].efiling_exemption: ALDocument.using(title=f"E-filing exemption { users.number_gathered() + i + 1}", filename="exemption", enabled=True, has_addendum=False)
+  - users[i].efiling_exemption: ALDocument.using(title="", filename="exemption", enabled=True, has_addendum=False)
+  - other_parties[i].efiling_exemption: ALDocument.using(title="", filename="exemption", enabled=True, has_addendum=False)
   - instructions: ALDocument.using(title="Instructions", filename="instructions", enabled=True, has_addendum=False)
+---
+reconsider: True
+code: |
+  exemption_bundle_elements = []
+  exemption_bundle_elements.append(instructions)
+  for index, party in enumerate(all_parties):
+    party.exemption_title = "Efiling exemption " + str(index + 1) + " for " + str(party.name.full(middle='full'))
+    exemption_bundle_elements.append(party.efiling_exemption)
+    party.efiling_exemption.title = party.exemption_title
+    
+  al_user_bundle.elements = exemption_bundle_elements
+  titling_code = True   
 ---
 id: review screen
 event: review_answers
