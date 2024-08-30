@@ -151,36 +151,6 @@ content: |
 
   This is an example of help. Click again to hide.
 ---
-id: accept terms
-question: |
-  Terms of use
-subquestion: |
-  This program does not provide legal advice. It does not take the place of advice from a lawyer.
-
-  Using this program does not create an attorney-client relationship between you and Illinois Legal Aid Online or its employees.
-
-  ${ collapse_template(get_legal_help) }  
-
-fields:
-  - To continue, you must accept the [**terms of use**](https://www.illinoislegalaid.org/about/terms-of-use).: accept
-    datatype: checkboxes
-    none of the above: False
-    minlength: 1
-    choices:
-      - I accept the terms of use.
-    validation messages:
-      minlength: |
-        You cannot continue unless you agree to the terms of use.
-continue button field: accept_terms
----
-template: get_legal_help
-subject: |
-  **What if I need legal advice?**
-content: |  
-  If you have questions or concerns about your legal problem and want legal advice you should talk to a lawyer.
- 
-  Use [**Get Legal Help**](https://www.illinoislegalaid.org/get-legal-help) to find free or low-cost legal services in your area.
----
 id: qualifications
 continue button field: how_to_qualify
 question: |
@@ -216,6 +186,15 @@ subject: |
   **What if the person's name doesn't fit into 4 fields?**
 content: |
   If the party has a long name like "Jane Smith, Director of Housing," select **Business or organization**. You can then enter the full name and title.
+---
+sets:
+  - users[0].name.first
+id: user zero name
+question: |
+  What is your name?
+fields:
+  - code: |
+      users[0].name_fields()
 ---
 id: your address
 question: |
