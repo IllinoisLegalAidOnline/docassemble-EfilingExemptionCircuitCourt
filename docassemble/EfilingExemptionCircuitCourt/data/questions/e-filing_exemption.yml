@@ -8,7 +8,6 @@ metadata:
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
-  - docassemble.ALToolbox:phone-number-validation.yml
   - docassemble.ILAO:ilao-interview-framework.yml
   - docassemble.ILAO:shared-basic-questions.yml
 ---
@@ -74,6 +73,7 @@ code: |
     users[0].phone_number
   if include_email_address == True:
     users[0].email
+  e_signature
   set_progress(100)
   nav.set_section('section_download')
   forms_assembling
@@ -142,13 +142,9 @@ subquestion: |
   Click on **{green words}** to learn what they mean. Some questions have a question mark in a circle ${ fa_icon("question-circle", color_css="#0DCAF0" ) } that also gives help. 
 ---
 template: help_example
-
 subject: |
-
   **You can expand sections like this to show more information.**
-
 content: |  
-
   This is an example of help. Click again to hide.
 ---
 id: qualifications
@@ -160,9 +156,9 @@ subquestion: |
 
   You may also qualify if you do not have a lawyer and at least one of the following statements is true:
 
-  * You do not have the Internet or computer access in the home and travel presents a hardship (financial or otherwise),
+  * You do not have the Internet or computer access in your home and travel presents a hardship (financial or otherwise),
   * You have trouble reading, writing, or speaking in English, or
-  * You tried to e-file your papers, but you were not able to complete the process because the equipment or help you need was not available.
+  * You tried to e-file your forms, but you were not able to complete the process because the equipment or help you need was not available.
 ---
 sets:
   - users[i].name.first
@@ -183,9 +179,9 @@ fields:
 ---
 template: long_name_help
 subject: |
-  **What if the person's name doesn't fit into 4 fields?**
+  **What if I need more space?**
 content: |
-  If the party has a long name like "Jane Smith, Director of Housing," select **Business or organization**. You can then enter the full name and title.
+  If the person has a long name like "Jane Smith, Director of Housing," select **Business or organization**. You can then enter the full name and title.
 ---
 sets:
   - users[0].name.first
@@ -333,9 +329,9 @@ fields:
   - no label: other_reasons
     datatype: checkboxes
     choices:
-      - "I do not have a computer or Internet access in my home. My only access is through a public terminal at a courthouse, library, or other location. This poses a financial or other hardship.": no_computer
+      - "I do not have the Internet or computer access in the home and travel presents a hardship (financial or otherwise)": no_computer
       - "I have trouble reading, writing, or speaking in English.": no_english
-      - "I tried to e-file my papers, but I was unable to complete the process because the equipment or help I need is not available.": unable_to
+      - "I tried to e-file my forms, but was not able to complete the process because the equipment or help I need was not available.": unable_to
 ---
 id: party label
 question: |
@@ -458,6 +454,37 @@ fields:
   - Case number: case_number
     required: False
 ---
+id: e-signature
+question: |
+  Do you want to add your e-signature to your form?
+subquestion: |
+  This program can put “**/s/ ${users[0].name.full(middle='full')}**” where you would sign your name. The court will accept this as your signature.
+
+  If you do not add your **{e-signature}**, you must sign your paper form before you file it.
+
+  <div class="alert alert-info ilao-info" role="alert">
+    <h6 class="alert-heading">What it means to sign your forms</h6>
+    <p>By signing your court forms, you are certifying that:</p>
+    <p><ul>
+      <li>You read the document,</li>
+      <li>You believe it to be true and correct, and</li>
+      <li>You are not filing it for an improper purpose.</li>
+    </ul></p>
+    <p>See the <a href="https://ilcourtsaudio.blob.core.windows.net/antilles-resources/resources/9ce1fce9-895f-463e-b87d-f9b7631f8fde/Rule%20137.pdf"><b>Illinois Supreme Court Rule 137</b></a> for more information.</p>
+    <p>By signing the <i>Certification for Exemption from E-filing</i>, you are certifying that:</p>
+    <p><ul>
+      <li>Everything on the forms is true and correct, or you have been informed or you believe it to be true and correct, and</li>
+      <li>You understand that making a false statement on the form is perjury, which can result in criminal penalties.</li>
+    </ul></p>
+  <p>See the <a href="https://www.ilga.gov/legislation/ilcs/documents/073500050k1-109.htm"><b>Code of Civil Procedure, 735 ILCS 5/1-109</b></a> for more information.</p>
+  </div>
+fields:
+  - "Add e-signature?": e_signature
+    datatype: yesnoradio
+terms:
+  - "e-signature": |
+      An e-signature is an electronic signature. It is a digital version of a signature that has the same effect as a hand-written signature. 
+---
 id: forms assembling
 continue button field: forms_assembling
 question: |
@@ -530,15 +557,13 @@ attachment:
       - "plaintiff_list": ${ users.full_names() if party_label == "plaintiff" or party_label == "petitioner" else other_parties.full_names()}
       - "defendant_list": ${list_defendants(users.full_names(), other_parties.full_names(), anyone_opposing, party_label)}
       - "case_number": ${ case_number }
-      - "no_computer": ${ other_reasons.all_true('no_computer') }
-      - "no_english": ${ other_reasons.all_true('no_english') }
       - "sensitive_case": ${ sensitive_case }
-      - "unable_to": ${ other_reasons.all_true('unable_to') }
-      - "user_address_one": ${ users[0].address.line_one(bare=True) }
-      - "user_address_two": ${ users[0].address.line_two() }
+      - "unable_to_efile": ${ other_reasons.any_true() }
+      - "user_address_one_line": ${ users[0].address.on_one_line(bare=True) }
       - "user_name": ${ users[0].name.full(middle="full") }
       - "user_email": ${ users[0].email if include_email_address == True else "" }
       - "user_phone": ${ phone_number_formatted(users[0].phone_number) if include_phone == True else ""}
+      - "user_signature": ${ users[0].name.full(middle="full") if e_signature else '' }        
 ---
 attachment:
   - name: instructions
