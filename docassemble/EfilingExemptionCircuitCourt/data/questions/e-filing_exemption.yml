@@ -382,7 +382,7 @@ question: |
   Is anyone else on your side of the case?
 subquestion: |
   % if len(users.elements) > 1:  
-  So far you have told us about ${comma_and_list(users.complete_elements().full_names())}.
+  So far you have told us about ${users.full_names()}.
   % endif  
 fields:
   - "Anyone else?": users.there_is_another
@@ -422,7 +422,7 @@ id: any more other parties
 question: |
   Are there any other ${ opposing_label }s in the case?
 subquestion: |  
-  So far you have told us about ${comma_and_list(other_parties.complete_elements().full_names())}.
+  So far you have told us about ${other_parties.full_names()}.
 fields:
   - "Anyone else?": other_parties.there_is_another
     datatype: yesnoradio
@@ -480,7 +480,7 @@ id: e-signature
 question: |
   Do you want to add your e-signature to your form?
 subquestion: |
-  This program can put “**/s/ ${users[0].name.full(middle='full')}**” where you would sign your name. The court will accept this as your signature.
+  This program can put “**/s/ ${users[0].name_full()}**” where you would sign your name. The court will accept this as your signature.
 
   If you do not add your **{e-signature}**, you must sign your paper form before you file it.
 
@@ -575,15 +575,15 @@ attachment:
           % else:
           % if party_label == "plaintiff" or party_label == "petitioner":
           % if users.number() > 1:
-          ${ users[0].name.full(middle="full") }, et al.
+          ${ users[0].name_full() }, et al.
           % else:
-          ${ users[0].name.full(middle="full") }
+          ${ users[0].name_full() }
           % endif
           % else:
           % if other_parties.number() > 1:
-          ${ other_parties[0].name.full(middle="full") }, et al.
+          ${ other_parties[0].name_full() }, et al.
           % else:
-          ${ other_parties[0].name.full(middle="full") }
+          ${ other_parties[0].name_full() }
           % endif
           % endif
           % endif
@@ -596,16 +596,15 @@ attachment:
           % else:
           ${ users.full_names() }
           % endif
-          % endif
-        
+          % endif    
       - "case_number": ${ case_number }
       - "sensitive_case": ${ sensitive_case }
       - "unable_to_efile": ${ other_reasons.any_true() }
       - "user_address_one_line": ${ users[0].address.on_one_line(bare=True) }
-      - "user_name": ${ users[0].name.full(middle="full") }
+      - "user_name": ${ users[0].name_full() }
       - "user_email": ${ users[0].email if include_email_address == True else "" }
       - "user_phone": ${ phone_number_formatted(users[0].phone_number) if include_phone == True else ""}
-      - "user_signature": ${ users[0].name.full(middle="full") if e_signature else '' }        
+      - "user_signature": ${ users[0].name_full() if e_signature else '' }        
 ---
 attachment:
   - name: instructions
@@ -633,7 +632,7 @@ review:
       **Your party:**
 
       % for my_var in users:
-        * ${ my_var.name.full(middle="full") }
+        * ${ my_var.name_full() }
       % endfor
   - Edit: anyone_opposing
     button: |
@@ -645,7 +644,7 @@ review:
       **The other party:**
 
       % for my_var in other_parties:
-        * ${ my_var.name.full(middle="full") }
+        * ${ my_var.name_full() }
       % endfor
     show if: anyone_opposing
   - Edit: in_re_check
@@ -733,7 +732,7 @@ table: users.table
 rows: users
 columns:
   - Name: |
-      row_item.name.full(middle="full") if defined("row_item.name.first") else ""
+      row_item.name_full() if defined("row_item.name.first") else ""
 edit:
   - name.first
 delete buttons: True
@@ -752,7 +751,7 @@ table: other_parties.table
 rows: other_parties
 columns:
   - Name: |
-      row_item.name.full(middle="full") if defined("row_item.name.first") else ""
+      row_item.name_full() if defined("row_item.name.first") else ""
 edit:
   - name.first
 delete buttons: True
@@ -812,7 +811,7 @@ review:
       **Your party:**
 
       % for my_var in users:
-        * ${ my_var.name.full(middle="full") }
+        * ${ my_var.name_full() }
       % endfor
   - Edit: anyone_opposing
     button: |
@@ -824,7 +823,7 @@ review:
       **The other party:**
 
       % for my_var in other_parties:
-        * ${ my_var.name.full(middle="full") }
+        * ${ my_var.name_full() }
       % endfor
     show if: anyone_opposing
   - Edit: in_re_check
@@ -855,7 +854,7 @@ review:
   - Edit: users[0].name.first
     button: |
       **Your name:**
-      ${users[0].name.full(middle='full')}
+      ${users[0].name_full()}
   - Edit: users[0].address.address
     button: |
       **Your address:**
