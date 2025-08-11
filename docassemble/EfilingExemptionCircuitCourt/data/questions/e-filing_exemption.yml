@@ -806,7 +806,7 @@ review:
         **You are applying for an e-filing exemption because:**
         
       % if other_reasons.all_true('no_computer') == True:
-        * You do not have a computer or Internet access in you home. Your only access is through a public terminal at a courthouse, library, or other location. This poses a financial or other hardship.
+        * You do not have a computer or Internet access in you home.
         
       % endif
       % if other_reasons.all_true('no_email') == True:
