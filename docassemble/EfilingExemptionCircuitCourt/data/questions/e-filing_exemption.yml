@@ -400,7 +400,7 @@ question: |
   Is anyone else on your side of the case?
 subquestion: |
   % if len(users.elements) > 1:  
-  So far you have told us about ${users.full_names()}.
+  So far you have told us about ${ fix_punctuation( users.full_names() ) }
   % endif  
 fields:
   - "Anyone else?": users.there_is_another
@@ -440,7 +440,7 @@ id: any more other parties
 question: |
   Are there any other ${ opposing_label }s in the case?
 subquestion: |  
-  So far you have told us about ${other_parties.full_names()}.
+  So far you have told us about ${ fix_punctuation( other_parties.full_names() ) }
 fields:
   - "Anyone else?": other_parties.there_is_another
     datatype: yesnoradio
@@ -454,7 +454,7 @@ subquestion: |
     
   ${ collapse_template(county_lookup_help) }  
 fields:
-  - no label: trial_court_index
+  - County: trial_court_index
     code: |
       court_county_lookup()
 ---
@@ -509,7 +509,7 @@ subquestion: |
       <li>Everything on the form is true and correct, or you have been informed or you believe it to be true and correct, and</li>
       <li>You understand that making a false statement on the form is perjury and has penalties provided by law.</li>
     </ul></p>
-  <p>See the <a href="https://www.ilga.gov/legislation/ilcs/documents/073500050k1-109.htm"><b>Code of Civil Procedure, 735 ILCS 5/1-109</b></a> for more information.</p>
+  <p>See the <a href="https://www.ilga.gov/legislation/ilcs/documents/073500050k1-109.htm"><b>Illinois Code of Civil Procedure, 735 ILCS 5/1-109</b></a> for more information.</p>
   </div>
 fields:
   - "Add e-signature?": e_signature
@@ -555,7 +555,7 @@ under: |
   % endif
 
  
-  ${ action_button_html(interview_url(i="docassemble.ILAO:feedback.yml", easy_form_interview=ilao_easy_form_url, easy_form_title=ilao_easy_form_title, easy_form_page=user_info().question_id, easy_form_variable=user_info().variable, local=False,reset=1), label=':comment: Was this program helpful?', color="#181c36", size="md", new_window=True) }
+  ${ action_button_html(interview_url(i="docassemble.ILAO:feedback.yml", easy_form_interview=ilao_easy_form_url, easy_form_title=ilao_easy_form_title, easy_form_page=current_context().question_id, easy_form_variable=current_context().variable, local=False,reset=1), label=':comment: Was this program helpful?', color="#181c36", size="md", new_window=True) }
 ---
 code: |
   if party_label == "plaintiff" or party_label == "petitioner":
